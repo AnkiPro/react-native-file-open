@@ -1,20 +1,26 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from '@ankipro/react-native-file-open';
+import { StyleSheet, View } from 'react-native';
+import FileOpening from '@ankipro/react-native-file-open';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  useEffect(() => {
+    const onFileOpened = (uri: string) => {
+      console.log(uri);
+    };
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    FileOpening.getOpenedFileURL().then(onFileOpened);
+
+    const subscription = FileOpening.addListener((data) => {
+      onFileOpened(data.url);
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
-  );
+  return <View style={styles.container} />;
 }
 
 const styles = StyleSheet.create({
@@ -22,10 +28,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });

@@ -11,6 +11,11 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
+  NSURL *_Nullable launchURL = [launchOptions valueForKey:UIApplicationLaunchOptionsURLKey];
+  if (launchURL) {
+    [[FileOpeningModule sharedInstance] markFileOpened:launchURL];
+  }
+
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -27,5 +32,15 @@
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+// - (BOOL)application:(UIApplication *)application
+//             openURL:(NSURL *)url
+//             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+// {
+//   if ([SupportedDeckFormatHelper isSupportedFormatWithUrl:url]) {
+//     [[FileOpeningModule sharedInstance] markFileOpened:url];
+//     return YES;
+//   }
+// }
 
 @end

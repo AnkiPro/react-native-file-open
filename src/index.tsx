@@ -1,13 +1,15 @@
+import { NativeEventEmitter } from 'react-native';
 import { NativeModules, Platform } from 'react-native';
+import type { FileOpenedData, IFileOpening } from './types';
+import type { EmitterSubscription } from 'react-native';
 
 const LINKING_ERROR =
   `The package '@ankipro/react-native-file-open' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
+  '- You rebuilt the app after installing the package\n';
 
-const ReactNativeFileOpen = NativeModules.ReactNativeFileOpen
-  ? NativeModules.ReactNativeFileOpen
+const FileOpeningModule = NativeModules.FileOpeningModule
+  ? NativeModules.FileOpeningModule
   : new Proxy(
       {},
       {
@@ -17,6 +19,17 @@ const ReactNativeFileOpen = NativeModules.ReactNativeFileOpen
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return ReactNativeFileOpen.multiply(a, b);
-}
+const FileOpening: IFileOpening = {
+  getOpenedFileURL: FileOpeningModule.getOpenedFileURL,
+
+  addListener: (
+    listener: (data: FileOpenedData) => void
+  ): EmitterSubscription => {
+    const eventEmitter = new NativeEventEmitter(FileOpeningModule);
+    return eventEmitter.addListener('FileOpened', listener);
+  },
+};
+
+export default FileOpening;
+
+export type * from './types';
