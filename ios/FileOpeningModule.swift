@@ -4,11 +4,11 @@ import Foundation
 import React
 
 @objc(FileOpeningModule)
-class FileOpeningModule: RCTEventEmitter {
+public class FileOpeningModule: RCTEventEmitter {
   
   static let FILE_OPENED_EVENT = "FileOpened"
 
-  @objc static var sharedInstance: FileOpeningModule?
+  @objc public static var sharedInstance: FileOpeningModule?
 
   private var openedFileURL: URL?
   private var callbacks: [String: RCTResponseSenderBlock] = [:]
@@ -19,7 +19,7 @@ class FileOpeningModule: RCTEventEmitter {
   }
 
   @objc(markFileOpened:)
-  func markFileOpened(url: URL) {
+  public func markFileOpened(url: URL) {
     openedFileURL = url
     sendFileOpenedEvent()
   }
@@ -41,12 +41,12 @@ class FileOpeningModule: RCTEventEmitter {
   }
 
   @objc
-  override static func requiresMainQueueSetup() -> Bool {
+  public override static func requiresMainQueueSetup() -> Bool {
     return true
   }
 
   @objc
-  override func supportedEvents() -> [String]! {
+  public override func supportedEvents() -> [String]! {
     return [FileOpeningModule.FILE_OPENED_EVENT]
   }
 }
