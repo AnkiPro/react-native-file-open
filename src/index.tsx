@@ -1,7 +1,10 @@
-import { NativeEventEmitter } from 'react-native';
-import { NativeModules, Platform } from 'react-native';
+import {
+  NativeEventEmitter,
+  NativeModules,
+  Platform,
+  type EmitterSubscription,
+} from 'react-native';
 import type { FileOpenedData, IFileOpening } from './types';
-import type { EmitterSubscription } from 'react-native';
 
 const LINKING_ERROR =
   `The package '@ankipro/react-native-file-open' doesn't seem to be linked. Make sure: \n\n` +

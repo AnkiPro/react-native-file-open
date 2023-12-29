@@ -35,14 +35,12 @@
 #endif
 }
 
-// - (BOOL)application:(UIApplication *)application
-//             openURL:(NSURL *)url
-//             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
-// {
-//   if ([SupportedDeckFormatHelper isSupportedFormatWithUrl:url]) {
-//     [[FileOpeningModule sharedInstance] markFileOpened:url];
-//     return YES;
-//   }
-// }
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+{
+  [[FileOpeningModule sharedInstance] markFileOpened:url];
+  return YES;
+}
 
 @end

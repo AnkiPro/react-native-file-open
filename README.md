@@ -5,18 +5,81 @@ React Native file opening listener for iOS
 ## Installation
 
 ```sh
-npm install @ankipro/react-native-file-open
+yarn add @ankipro/react-native-file-open
 ```
 
-## Usage
+```sh
+npx pod-install
+```
 
-```js
-import { multiply } from '@ankipro/react-native-file-open';
+Sorry but, you need to modify your `ios/AppDelegate.m`.
+At the top of the file, import the RNFileOpen right before '@implementation AppDelegate':
+
+```C#
+@import RNFileOpen;
+```
+Within your existing didFinishLaunchingWithOptions method, add the following method:
+
+```C#
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+  // Add me --- \/
+  NSURL *_Nullable launchURL = [launchOptions valueForKey:UIApplicationLaunchOptionsURLKey];
+  if (launchURL) {
+    [[FileOpeningModule sharedInstance] markFileOpened:launchURL];
+  }
+  // Add me --- /\
+
+  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+```
+At the end of the file add the following:
+```C#
+// Add me --- \/
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+{
+  [[FileOpeningModule sharedInstance] markFileOpened:url];
+  return YES;
+}
+// Add me --- /\
+
+@end
+```
+
+If you want the app to appear in suggestions when you open certain files on your device, you need to add the desired extensions in the project info.
+
+For example adding `.zip` extension looks like:
+
+![adding_zip_extension_in_project_settings](./assets/app_info_demo.png)
+
+
+## Basic usage
+
+```ts
+import FileOpening from '@ankipro/react-native-file-open';
 
 // ...
 
-const result = await multiply(3, 7);
+ useEffect(() => {
+    const onFileOpened = (uri: string) => {
+      console.log('Opened file: ', uri);
+    };
+
+    FileOpening.getOpenedFileURL().then(onFileOpened).catch(() => {});
+
+    const subscription = FileOpening.addListener((data) => {
+      onFileOpened(data.url);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 ```
+
+see [example](./example/src/App.tsx)
 
 ## Contributing
 
