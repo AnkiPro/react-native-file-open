@@ -1,6 +1,6 @@
 # @ankipro/react-native-file-open
 
-React Native file opening listener for iOS
+Library empowers to seamlessly detect and handle external file openings on iOS. You can allowing your app to respond when users attempt to open files from other apps or external sources.
 
 ## Installation
 
@@ -79,7 +79,7 @@ import FileOpening from '@ankipro/react-native-file-open';
   }, []);
 ```
 
-see [example](./example/src/App.tsx)
+For more information see [example](./example/src/App.tsx).
 
 ## Contributing
 
