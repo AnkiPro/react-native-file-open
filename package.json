@@ -1,6 +1,6 @@
 {
   "name": "@ankipro/react-native-file-open",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "React Native file opening listener for iOS",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
