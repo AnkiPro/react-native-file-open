@@ -2,6 +2,8 @@
 
 Library empowers to seamlessly detect and handle external file openings on iOS. You can allowing your app to respond when users attempt to open files from other apps or external sources.
 
+Made with 💙 by [Anki Pro](https://ankipro.net/) team
+
 ## Installation
 
 ```sh
